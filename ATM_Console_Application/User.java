@@ -1,5 +1,7 @@
 package ATM_Console_Application;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 public class User {
     private String userName;
     private String pin;
@@ -7,11 +9,10 @@ public class User {
     private ArrayList<String> userHistory = new ArrayList<String>();
 
 
-    public User(String userName, String pin, double accBalance)
+    public User(String userName, String pin)
     {
         this.setUserName(userName);
         this.setPin(pin);
-        this.setBalance(accBalance);
     }
     public String getUserName()
     {
@@ -47,5 +48,6 @@ public class User {
     {
         return this.userHistory;
     }
+
 
 }

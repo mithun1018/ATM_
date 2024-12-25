@@ -2,16 +2,27 @@ package ATM_Console_Application;
 import java.util.ArrayList;
 public class Admin {
     private static ArrayList<String> atmTransactionHistory = new ArrayList<>();
-    private static String adminName = "123";
-    private static String pin = "1234";
+    private  String adminName ;
+    private  String pin;
+    public Admin(String AdminName, String newpin)
+    {
+       this.adminName=AdminName;
+       this.pin=newpin;
+    }
 
-    // for admins
-    public static String getAdminName()
+
+    public void setAdminName(String AdminName){
+        adminName=AdminName;
+    }
+    public void setAdminpin(String Adminpin){
+        pin=Adminpin;
+    }
+    public  String getAdminName()
     {
         return adminName;
     }
 
-    public static String getpin()
+    public  String getpin()
     {
         return pin;
     }
@@ -19,6 +30,9 @@ public class Admin {
     public static void addATMTransactionHistory(String transaction)
     {
         Admin.atmTransactionHistory.add(transaction);
+    }
+    public static ArrayList<String>  AtmTransactionHistory(){
+        return atmTransactionHistory;
     }
 
 }
