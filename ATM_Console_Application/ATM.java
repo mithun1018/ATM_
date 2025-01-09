@@ -1,4 +1,8 @@
 package ATM_Console_Application;
+import ATM_Console_Application.ListOfNotes.FiveHundred;
+import ATM_Console_Application.ListOfNotes.Hundred;
+import ATM_Console_Application.ListOfNotes.TwoHundred;
+import ATM_Console_Application.ListOfNotes.TwoThousand;
 import ATM_Console_Application.Notes.*;
 
 import java.util.ArrayList;
@@ -8,31 +12,17 @@ import java.util.Scanner;
 
 public class ATM
 {
-    private static ArrayList<User> userArray = new ArrayList<>();
-    private static ArrayList<Admin> adminArray = new ArrayList<>();
-    private static ArrayList<Notes> notesArray=new ArrayList<Notes>(Arrays.asList(new Hundred("100",0),new TwoHundred("200",0),new FiveHundred("500",0),new TwoThousand("2000",0)));
-    private static ArrayList<Transaction> transactionArray=new ArrayList<>();
+    private static ArrayList<Account> accountArray=new ArrayList<>();
+    private static ArrayList<Notes> noteArray = new ArrayList<Notes>(Arrays.asList(new TwoThousand("2000", 0), new FiveHundred("500", 0), new TwoHundred("200", 0),new Hundred("100", 0)));
     private static double balance;
-    public static ArrayList<User> getAvailableUsers()
-    {
-        return userArray;
-    }
-    public static ArrayList<Admin> getAvailableAdmin()
-    {
-        return adminArray;
-    }
-    public static ArrayList<Notes> getAvailableNotes(){
-        return notesArray;
-    }
-    public static ArrayList<Transaction> getAvailableTransaction(){
-        return transactionArray;
-    }
 
-//    public static void setNotesArray(){
-//        getAvailableNotes().add("")
-//    }
-    public static double getBalance()
-    {
+    public static ArrayList<Account> getAccountArray(){
+        return accountArray;
+    }
+    public static ArrayList<Notes> getNoteArray(){
+        return noteArray;
+    }
+    public static double getBalance() {
         return ATM.balance;
     }
     public static void setBalance(double balance)
@@ -46,12 +36,14 @@ public class ATM
             System.out.println("1.Admin\n2.User\n3.Exit\nEnter your choice : ");
             int roleChoice = Integer.parseInt(s.next());
             if (roleChoice == 1) {
-                ATM.adminArray.add(new Admin("123","1234"));
-                Admin_action.adminEntry();
+                ATM.getAccountArray().add(new Admin("123","1234"));
+               Admin currentAdmin=(Admin) Admin_action.adminEntry();
+               ATM.adminAction(s,currentAdmin);
             }
-//            for choice 2
+
             else if (roleChoice == 2) {
-                User_action.userEntry();
+                User currentUser=(User)User_action.userEntry();
+                ATM.userAction(s,currentUser);
 
             }
             else if(roleChoice==3)
@@ -65,7 +57,7 @@ public class ATM
         }
 
     }
-public static void adminAction(Scanner scan,Admin admin){
+public static void adminAction(Scanner scan,Admin currentAdmin){
     while (true) {
         System.out.println("1.Add User\n2.Delete User\n3.View all user\n4.transaction history\n5.Add a New Admin\n6.Add Amount in ATM\n7.View amount in ATM\n 8.exit\nEnter the operation");
         int adminchoice = Integer.parseInt(scan.next());
@@ -77,12 +69,12 @@ public static void adminAction(Scanner scan,Admin admin){
             Admin_action.viewAllUse();
         }
         else if (adminchoice==4) {
-            Admin_action.transactionhistory(scan);
+            Admin_action.transactionhistory(scan,currentAdmin);
         } else if (adminchoice==5) {
             Admin_action.addAdmin(scan);
         }
         else if (adminchoice==6){
-            Admin_action.depositInATM(scan);
+            Admin_action.depositInATM(scan,currentAdmin);
         } else if (adminchoice==7) {
             Admin_action.viewAmountInATM();
 
@@ -102,7 +94,7 @@ public static void userAction(Scanner scan,User currentUser){
 
         if (operationChoice == 1)
         {
-            System.out.println("Your current balance is " + currentUser.getBalance());
+            System.out.println("Your current balance is " + currentUser.getAccBalance());
         }
         else if (operationChoice == 2)
         {
@@ -125,7 +117,7 @@ public static void userAction(Scanner scan,User currentUser){
         else if (operationChoice == 6)
         {
             System.out.println("Exit");
-//                            break userEnter;
+
             ATM.start();
         }
         else
@@ -136,31 +128,5 @@ public static void userAction(Scanner scan,User currentUser){
     }
 }
 
-
-
-    public static User getUser(String username)
-    {
-        ArrayList<User> usersAvailable =ATM.getAvailableUsers();
-        for(User individualUser:usersAvailable)
-        {
-            if (individualUser.getUserName().equals(username))
-            {
-                return individualUser;
-            }
-        }
-        return null;
-    }
-    public static Admin getAdmin(String adminname)
-    {
-        ArrayList<Admin> AdminsAvailable =ATM.getAvailableAdmin();
-        for(Admin individualAdmin:AdminsAvailable)
-        {
-            if (individualAdmin.getAdminName().equals(adminname))
-            {
-                return individualAdmin;
-            }
-        }
-        return null;
-    }
 
 }
